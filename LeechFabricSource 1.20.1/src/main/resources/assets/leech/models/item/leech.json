@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "leech:item/leech"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "leech:blocking": 1.0
+      },
+      "model": "leech:item/leech_blocking"
+    }
+  ]
+}

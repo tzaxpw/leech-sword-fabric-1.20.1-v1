@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "leech",
+  "version": "1.0.0",
+  "name": "Leech Sword",
+  "description": "Leech Sword for Fabric 1.20.1.",
+  "authors": [
+    "yuheng"
+  ],
+  "contact": {},
+  "license": "CC0-1.0",
+  "icon": "assets/leech/textures/item/leech.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.yuheng.leech.LeechMod"
+    ],
+    "client": [
+      "com.yuheng.leech.client.LeechClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.14.22",
+    "minecraft": "~1.20.1",
+    "java": ">=17",
+    "fabric-api": "*"
+  },
+  "mixins": [
+    "leech.mixins.json"
+  ]
+}
