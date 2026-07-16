@@ -78,7 +78,6 @@ public class LeechSwordItem extends PickaxeItem {
     public static void ensureNativeNbt(ItemStack stack) {
         NbtCompound nbt = stack.getOrCreateNbt();
         nbt.putBoolean("Unbreakable", true);
-
     }
 
     @Override
@@ -121,8 +120,9 @@ public class LeechSwordItem extends PickaxeItem {
 
     @Override
     public UseAction getUseAction(ItemStack stack) {
-        // NONE avoids vanilla shield/spyglass/bow behavior while still allowing isUsingItem().
-        return UseAction.NONE;
+        // Use vanilla BLOCK arm pose so the third-person right arm naturally
+        // crosses the chest instead of rotating only the item model.
+        return UseAction.BLOCK;
     }
 
     @Override
@@ -153,7 +153,9 @@ public class LeechSwordItem extends PickaxeItem {
                 // Without restoring lastDamageTaken, fast clicks can leak damage through vanilla's
                 // "larger damage during i-frames" rule, making click speed equal DPS.
                 target.timeUntilRegen = Math.max(target.timeUntilRegen, Math.max(normalHitIFrames, 20));
-                accessor.leech$setLastDamageTaken(Math.max(accessor.leech$getLastDamageTaken(), normalHitLastDamage + 3.0F));
+                accessor.leech$setLastDamageTaken(
+                        Math.max(accessor.leech$getLastDamageTaken(), normalHitLastDamage + 3.0F)
+                );
             }
         }
 

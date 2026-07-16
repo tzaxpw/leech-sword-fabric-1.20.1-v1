@@ -18,7 +18,6 @@ public class LeechClient implements ClientModInitializer {
     private static KeyBinding summonSwordKey;
     private static KeyBinding clearLevitationKey;
     private static KeyBinding openStorageKey;
-    private static boolean blockingVisual = false;
 
     @Override
     public void onInitializeClient() {
@@ -43,10 +42,18 @@ public class LeechClient implements ClientModInitializer {
                 "category.leech"
         ));
 
+        // Resolve the blocking model per rendered entity/stack.
+        // This also lets other players see the correct blocking model.
         FabricModelPredicateProviderRegistry.register(
                 LeechMod.LEECH_SWORD,
                 LeechMod.id("blocking"),
-                (stack, world, entity, seed) -> blockingVisual ? 1.0F : 0.0F
+                (stack, world, entity, seed) ->
+                        entity != null
+                                && entity.isUsingItem()
+                                && entity.getActiveItem() == stack
+                                && stack.getItem() instanceof LeechSwordItem
+                                ? 1.0F
+                                : 0.0F
         );
 
         ClientTickEvents.END_CLIENT_TICK.register(this::onClientTick);
@@ -54,11 +61,8 @@ public class LeechClient implements ClientModInitializer {
 
     private void onClientTick(MinecraftClient client) {
         if (client.player == null || client.world == null || client.currentScreen != null) {
-            blockingVisual = false;
             return;
         }
-
-        blockingVisual = client.options.useKey.isPressed() && LeechSwordItem.isLeechSwordMainHand(client.player);
 
         while (summonSwordKey.wasPressed()) {
             ClientPlayNetworking.send(LeechPackets.SUMMON_SWORD, PacketByteBufs.empty());
