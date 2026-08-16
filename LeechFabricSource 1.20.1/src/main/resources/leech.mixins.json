@@ -3,7 +3,8 @@
   "package": "com.yuheng.leech.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "LivingEntityAccessor"
+    "LivingEntityAccessor",
+    "LivingEntityBlockingMixin"
   ],
   "injectors": {
     "defaultRequire": 1
